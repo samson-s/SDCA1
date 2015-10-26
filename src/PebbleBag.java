@@ -31,7 +31,7 @@ public PebbleBag(ArrayList list, ArrayList list1, ArrayList list2){
 
              black1.add(list.get(x));
         }
-       
+        
         for (int y = 0; y < list1.size(); y++){
             black2.add(list1.get(y));
         }
@@ -65,19 +65,22 @@ public PebbleBag(ArrayList list, ArrayList list1, ArrayList list2){
                     fill(randomNo);
                     throw new BagEmptyException();
                 }
-                return (int) black1.get(random.nextInt(black1.size()+1));
+                int temp = (int) black1.remove(random.nextInt(black1.size()));
+                return temp;
             case 2:
                 if (black2.isEmpty()){
                     fill(randomNo);
                     throw new BagEmptyException();
                 }
-                return (int) black2.get(random.nextInt(black2.size()+1));
+                int temp2 = (int) black2.remove(random.nextInt(black2.size()));
+                return temp2;
             default:
                 if (black3.isEmpty()){
                     fill(randomNo);
                     throw new BagEmptyException();
                 }
-                return (int) black3.get(random.nextInt(black3.size()+1));
+                int temp3 = (int) black3.remove(random.nextInt(black3.size()));
+                return temp3;
         }   
     }
     
@@ -112,9 +115,11 @@ public PebbleBag(ArrayList list, ArrayList list1, ArrayList list2){
             case 1:
                 black1 = white1;
                 white1 = new ArrayList();
+                break;
             case 2:
                 black2 = white2;
                 white2 = new ArrayList();
+                break;
             default:
                 black3 = white3;
                 white3 = new ArrayList();

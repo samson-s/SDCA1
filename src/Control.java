@@ -15,12 +15,12 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Control {
+    private static int numberOfPlayers = 0;
     //constructor
     public Control(){}
     
     //methods
     public int numberOfPlayers(){
-        int numberOfPlayers = 0;
         while(numberOfPlayers < 2){
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             try{
@@ -41,6 +41,10 @@ public class Control {
         if (number < 1)
             throw new NegativeWeightException();
     }
+    private void checkPebbles(int pebbles) throws PebblesNotEnoughForPlayerException{
+        if (pebbles <= numberOfPlayers * 11)
+            throw new PebblesNotEnoughForPlayerException();
+    }
     
     public ArrayList readFile(){
         ArrayList content = new ArrayList();
@@ -60,10 +64,14 @@ public class Control {
                     }catch(Exception e){}
                     number = Integer.parseInt(input);
                     checkWeight(number);
+                    content.add(number);
                 }
+                checkPebbles(content.size());
                 done = true;
-            }catch(IOException | NumberFormatException | NegativeWeightException e){
+            }catch(IOException | NumberFormatException | NegativeWeightException 
+                    | PebblesNotEnoughForPlayerException e){
                 System.out.println(e);
+                System.out.println("Please enter the path again.");
             }
         }
         return content;

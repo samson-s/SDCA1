@@ -8,9 +8,9 @@
  *
  * @author Hui Ka Wang
  */
-public class Test {
-    public static void main(String args[]){
-        System.out.println("hi");
-        System.out.print("hi");
+public class PebblesNotEnoughForPlayerException extends Exception{
+    public PebblesNotEnoughForPlayerException(){}
+    public PebblesNotEnoughForPlayerException(String message){
+        System.out.println(message);
     }
 }

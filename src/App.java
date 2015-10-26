@@ -2,76 +2,94 @@
  *
  * @author kwsh201 pyt201
  */
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class App {
     private static int numberOfPlayers = 0;
     private static boolean someoneHasWon = false;
     private static int winner;
     
-    public class Player implements Runnable{
+    public static class Player implements Runnable{
         Thread t;
         Random ran = new Random();
-        App app = new App();
+        FileWriter fileWriter;
         PebbleBag pebbleBag ;
-        private final int playerNum;
+        private static final int winningNum = 700;
+        private int playerNum;
         private int temp;           //storing the number from the draw
         int hand[] = new int[10];
         int currentBag;
-        
+        public static Object lock = new Object();
         //constuctors
 
         /**
          *
          * @param playerNum
          * @param pebbleBag
+         * @param fileWriter
          */
-            public Player(int playerNum, PebbleBag pebbleBag){
-            this.playerNum = playerNum;
-            this.pebbleBag = pebbleBag;
+            public Player(int playerNum, PebbleBag pebbleBag, FileWriter fileWriter){
+            this.playerNum  = playerNum;
+            this.pebbleBag  = pebbleBag;
+            this.fileWriter = fileWriter;
         }
         
         //methods
         @Override
         public void run(){
+            //the playing process
             while(!someoneHasWon){
                 action();
             }
             int sum = 0;
+            //final caculating hand when someone has a winning hand
             for(int item : hand){
                 sum += item;
             }
-            if (sum == 100){
+            if (sum == winningNum){
                 winner = playerNum;
             }
         }
         
         public void start(){
-            t = new Thread();
+            t = new Thread(this);
             t.start();
         }
         
-        public synchronized void action(){
-            draw();
-            discard();
-            countHand();
+        public void join(){
             try{
-                notifyAll();
-                wait();
+                t.join();
             }catch(Exception e){}
         }
         
-        public synchronized void draw(){
+        public synchronized void action(){
+            synchronized(lock){
+                draw();
+                discard();
+                countHand(); 
+            }
+        }
+        
+        synchronized public void firstTenDraw(){
+            for(int i=0; i<10; i++){
+                try{
+                    hand[i] = pebbleBag.nextPebble(ran.nextInt(3)+1);
+                }catch(Exception e){};
+            }
+        }
+        
+        synchronized public void draw() { 
             currentBag = ran.nextInt(3) + 1;
-            boolean check = true;
-            while(check){
+            boolean done = false;
+            while(!done){
                 try{
                     temp = pebbleBag.nextPebble(currentBag);
-                    check = false;
+                    done = true;
                 }catch(BagEmptyException e){
                     if (currentBag == 3){
                        currentBag = 1;
@@ -79,42 +97,61 @@ public class App {
                      currentBag ++;
                 }
             }
-            System.out.print("player" + playerNum + "  has drawn a " + temp +
-                    " from bag " + currentBag + " player" + playerNum +" is "         
-            );
+            String output;
+            output = "player" + playerNum + " has drawn a " + temp +
+                    " from bag " + currentBag + " player" + playerNum +" hand is ";
             for(int item : hand){
-                System.out.print(item + ", ");
+                output = output + item + ", ";
             }
-            System.out.println(temp);
+            output = output + temp;
+            try {
+                fileWriter.write(output+"\r\n");
+            } catch (IOException ex) {}
+            System.out.println(output);
         }
         
-        public synchronized void discard(){
+        synchronized public void discard(){
             int position = ran.nextInt(10);
             int discard = hand[position];
             hand[position] = temp;
             pebbleBag.pebbleIn(discard, currentBag);
-            System.out.print("player" + playerNum + " has discarded a " + discard
-                    + " to bag"+ currentBag +" player" + playerNum + " hand is "
-            );
-            for(int item : hand){
-                System.out.print(item + ", ");
+            String output;
+            output = "player" + playerNum + " has discarded a " + discard
+                   + " to bag"+ currentBag +" player" + playerNum + " hand is ";
+            
+            for(int i=0; i<9; i++){
+                output = output + hand[i] + ", ";
             }
-            System.out.println("");
+            output = output + hand[9];
+            try {
+                fileWriter.write(output+"\r\n");
+            } catch (IOException ex) {}
+            System.out.println(output);
         }
         
-        public synchronized boolean countHand(){
+        synchronized public boolean countHand(){
             int sum = 0;
             for(int item:hand){
                 sum += item;
             }
-            if (sum == 100){
+            if (sum == winningNum){
                 someoneHasWon = true;
                 return true;
             }else return false;
         }
+        
+        public void showHand(){
+            for(int item: hand){
+                System.out.println(item);
+            }
+        }
+        
+        public void assignPlayerNumber(int number){
+            playerNum = number;
+        }
     }
     
-    public static void main(String args[]){
+    public static void main(String args[]) throws IOException{
         Control control = new Control();
         System.out.println("Hi, welcome to the Pebbles.");
         System.out.println("Please enter the number of players");
@@ -131,6 +168,23 @@ public class App {
         
         PebbleBag pebbleBag = new PebbleBag(fileContent1, 
                 fileContent2, fileContent3);
+        
+        FileWriter fileWriter;
+        File file = new File("result.txt");
+        fileWriter = new FileWriter(file);
+        
+        Player[] player = new Player[numberOfPlayers];
+        for(int i=0;i<numberOfPlayers; i++){
+            player[i] = new Player(i, pebbleBag, fileWriter);
+            player[i].firstTenDraw();
+            player[i].start();
         }
-}
+        for(int i=0;i<numberOfPlayers; i++){
+            player[i].join();
+        }
+        System.out.println("player"+winner+" has won the game");
+    }
+
+}   
+
 
