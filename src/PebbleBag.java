@@ -26,16 +26,15 @@ public class PebbleBag {
      * @param list2 
      */
     public PebbleBag(ArrayList list, ArrayList list1, ArrayList list2){ 
+      
         for (int x = 0; x < list.size() ; x++){
              black1.add(list.get(x));
         }
-        for (int y = size; y < 2*size; y++){
-            black2.add(list.get(y));
+       
         for (int y = 0; y < list1.size(); y++){
             black2.add(list1.get(y));
         }
-        for (int z = 2*size; z < (list.size()); z++){
-            black3.add(list.get(z));
+        
         for (int z = 0; z < list2.size(); z++){
             black3.add(list2.get(z));
         }
