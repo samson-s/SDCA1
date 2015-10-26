@@ -23,7 +23,7 @@ public class PebbleBag {
      * Adding element to the black bags from the csv file
      * @param list 
      */
-    public void PebbleBag(ArrayList list){
+    public PebbleBag(ArrayList list){
         int size = (list.size()/3);  
         for (int x = 0; x < size ; x++){
              black1.add(list.get(x));
