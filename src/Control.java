@@ -41,22 +41,28 @@ public class Control {
             throw new NegativeWeightException();
     }
     
-    public ArrayList readFile(String file){
+    public ArrayList readFile(){
         ArrayList content = new ArrayList();
-        Boolean done = false;
         int number;
+        boolean done = false;
         while(!done){
             try{
+                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                String path = in.readLine();
                 BufferedReader reader = new BufferedReader(
-                        new FileReader(file));
+                        new FileReader(path));
                 String input ;
-                while ((input = reader.readLine().replace(",", "")) != null){
+                while ((input = reader.readLine()) != null){
+                    try{
+                        input = input.replace(",", "");
+                    }catch(Exception e){}
                     number = Integer.parseInt(input);
                     checkWeight(number);
-                    content.add(number);
                 }
                 done = true;
-            }catch(IOException | NumberFormatException | NegativeWeightException e){}
+            }catch(IOException | NumberFormatException | NegativeWeightException e){
+                System.out.println(e);
+            }
         }
         return content;
     }

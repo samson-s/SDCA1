@@ -17,18 +17,22 @@ public class App {
         Thread t;
         Random ran = new Random();
         App app = new App();
-        PebbleBag pebbleBag = new PebbleBag();
-        private int playerNum;
+        PebbleBag pebbleBag ;
+        private final int playerNum;
         private int temp;           //storing the number from the draw
         int hand[] = new int[10];
         int currentBag;
         
         //constuctors
-        public Player(){
-        }
-        
-        public Player(int playerNum){
+
+        /**
+         *
+         * @param playerNum
+         * @param pebbleBag
+         */
+            public Player(int playerNum, PebbleBag pebbleBag){
             this.playerNum = playerNum;
+            this.pebbleBag = pebbleBag;
         }
         
         //methods
@@ -118,7 +122,15 @@ public class App {
         //works with the input of number of players amd performs checks
         numberOfPlayers = control.numberOfPlayers();
         //Read the files
-        ArrayList fileContent = control.readFile("example_file_2.csv");
+        System.out.println("Input the first csv file path.");
+        ArrayList fileContent1 = control.readFile();
+        System.out.println("Input the second csv file path.");
+        ArrayList fileContent2 = control.readFile();
+        System.out.println("Input the final csv file path.");
+        ArrayList fileContent3 = control.readFile();
         
-    }
+        PebbleBag pebbleBag = new PebbleBag(fileContent1, 
+                fileContent2, fileContent3);
+        }
 }
+
