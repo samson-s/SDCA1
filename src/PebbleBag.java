@@ -18,6 +18,23 @@ public class PebbleBag {
     ArrayList white1 = new ArrayList();
     ArrayList white2 = new ArrayList();
     ArrayList white3 = new ArrayList();
+   
+    /**
+     * Adding element to the black bags from the csv file
+     * @param list 
+     */
+    public void PebbleBag(ArrayList list){
+        int size = (list.size()/3);  
+        for (int x = 0; x < size ; x++){
+             black1.add(list.get(x));
+        }
+        for (int y = size; y < 2*size; y++){
+            black2.add(list.get(y));
+        }
+        for (int z = 2*size; z < (list.size()); z++){
+            black3.add(list.get(z));
+        }
+    }
     
     /** 
      * Get the random bag number from player 
