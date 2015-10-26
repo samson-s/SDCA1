@@ -10,6 +10,8 @@
  */
 import java.util.*;
 public class PebbleBag {
+    
+    // creat 6 array lists to store the pebbles
     ArrayList black1 = new ArrayList();
     ArrayList black2 = new ArrayList();
     ArrayList black3 = new ArrayList();
@@ -17,10 +19,24 @@ public class PebbleBag {
     ArrayList white2 = new ArrayList();
     ArrayList white3 = new ArrayList();
     
-    
+    /** 
+     * Get the random bag number from player 
+     * and return the pebble to player
+     * @param randomNo
+     * @return 
+     * @throws BagEmptyException
+     */ 
     public synchronized int nextPebble(int randomNo) throws BagEmptyException{
+        
+        // using random number generator to create randdom number
         Random random = new Random();
         
+        /** 
+         * Check the bag is empty or not
+         * If it is empty throw exception,
+         * player will draw pebble from another bag
+         * If it is not empty, player will draw the random pebble from this bag
+         */
         switch(randomNo){
             case 1:
                 if (black1.isEmpty()){
@@ -40,8 +56,15 @@ public class PebbleBag {
                     throw new BagEmptyException();
                 }
                 return (int) black3.get(random.nextInt(black3.size()+1));
+        }   
     }
-    }
+    
+    /**
+     * Add the Pebble to the corresponding white bag
+     *
+     * @param pebble
+     * @param bagNo 
+     */
     public synchronized void pebbleIn(int pebble, int bagNo){
         switch(bagNo){
             case 1:
@@ -57,7 +80,9 @@ public class PebbleBag {
     }
     
     /**
-     *
+     * Fill the bag if the bag is empty.
+     * The black bag is replaced by the corresponding white bag
+     * and the create a new array list for the white bag
      * @param bagNo
      */
     public void fill(int bagNo){
