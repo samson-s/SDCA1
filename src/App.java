@@ -118,11 +118,6 @@ public class App {
         //works with the input of number of players amd performs checks
         numberOfPlayers = control.numberOfPlayers();
         //Read the files
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader("example_file_2.csv"));
-            String input ;
-            while ((input = reader.readLine().replace(",", "")) != null)
-                System.out.println(input);
-        }catch(Exception e){}
+        ArrayList fileContent = control.readFile("example_file_2.csv");
     }
 }

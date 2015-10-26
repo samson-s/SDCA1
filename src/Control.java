@@ -41,7 +41,7 @@ public class Control {
             throw new NegativeWeightException();
     }
     
-    public ArrayList readFile(String file) throws NegativeWeightException{
+    public ArrayList readFile(String file){
         ArrayList content = new ArrayList();
         Boolean done = false;
         int number;
