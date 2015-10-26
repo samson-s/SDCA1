@@ -19,7 +19,7 @@ public class App {
         Random ran = new Random();
         FileWriter fileWriter;
         PebbleBag pebbleBag ;
-        private static final int winningNum = 700;
+        private static final int winningNum = 100;
         private int playerNum;
         private int temp;           //storing the number from the draw
         int hand[] = new int[10];
