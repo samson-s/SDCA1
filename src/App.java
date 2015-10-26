@@ -2,10 +2,11 @@
  *
  * @author kwsh201 pyt201
  */
-import java.util.Random;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.*;
 
 public class App {
     private static int numberOfPlayers = 0;
@@ -110,24 +111,18 @@ public class App {
     }
     
     public static void main(String args[]){
+        Control control = new Control();
         System.out.println("Hi, welcome to the Pebbles.");
         System.out.println("Please enter the number of players");
         
         //works with the input of number of players amd performs checks
-        while(numberOfPlayers < 2){
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            try{
-                String input = reader.readLine();
-                numberOfPlayers = Integer.parseInt(input);
-            }catch(IOException | NumberFormatException e){
-                System.out.println("Please enter a valid number that more then 1");
-                continue;
-            }
-            if (numberOfPlayers < 2)
-                System.out.println("Please enter a number that more then 1");
-        }
-        
+        numberOfPlayers = control.numberOfPlayers();
         //Read the files
-        
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader("example_file_2.csv"));
+            String input ;
+            while ((input = reader.readLine().replace(",", "")) != null)
+                System.out.println(input);
+        }catch(Exception e){}
     }
 }
