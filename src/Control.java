@@ -25,6 +25,7 @@ public class Control {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             try{
                 String input = reader.readLine();
+                if ("x".equals(input)) System.exit(0);
                 numberOfPlayers = Integer.parseInt(input);
             }catch(IOException | NumberFormatException e){
                 System.out.println("Please enter a valid number that more then 1");
@@ -49,6 +50,7 @@ public class Control {
             try{
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
                 String path = in.readLine();
+                if(path.equals("x")) System.exit(0);
                 BufferedReader reader = new BufferedReader(
                         new FileReader(path));
                 String input ;
