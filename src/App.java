@@ -119,5 +119,6 @@ public class App {
         numberOfPlayers = control.numberOfPlayers();
         //Read the files
         ArrayList fileContent = control.readFile("example_file_2.csv");
+        
     }
 }
