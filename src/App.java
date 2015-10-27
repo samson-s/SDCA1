@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class App {
     private static int numberOfPlayers = 0;
@@ -17,12 +19,13 @@ public class App {
         Random ran = new Random();
         FileWriter fileWriter;
         PebbleBag pebbleBag ;
-        private static final int winningNum = 100;
+        private static final int winningNum = 700;
         private int playerNum;
         private int temp;           //storing the number from the draw
         int hand[] = new int[10];
         int currentBag;
         public static Object lock = new Object();
+        private static int turn = 0;
         //constuctors
 
         /**
@@ -31,7 +34,7 @@ public class App {
          * @param pebbleBag
          * @param fileWriter
          */
-            public Player(int playerNum, PebbleBag pebbleBag, FileWriter fileWriter){
+        public Player(int playerNum, PebbleBag pebbleBag, FileWriter fileWriter){
             this.playerNum  = playerNum;
             this.pebbleBag  = pebbleBag;
             this.fileWriter = fileWriter;
@@ -42,7 +45,7 @@ public class App {
         public void run(){
             //the playing process
             while(!someoneHasWon){
-                action();
+                 action();
             }
             int sum = 0;
             //final caculating hand when someone has a winning hand
@@ -67,9 +70,14 @@ public class App {
         
         public synchronized void action(){
             synchronized(lock){
-                draw();
-                discard();
-                countHand(); 
+                if (turn == playerNum && !someoneHasWon){    
+                    draw();
+                    discard();
+                    countHand();
+                    if (turn == numberOfPlayers-1){
+                        turn = 0;
+                    }else turn++;
+                }
             }
         }
         
