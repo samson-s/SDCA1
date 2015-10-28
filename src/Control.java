@@ -20,12 +20,21 @@ public class Control {
     public Control(){}
     
     //methods
+    /**
+     * this method takes in and check the input of the number of players from the user.
+     * @return 
+     */
     public int numberOfPlayers(){
+        // if the number of players < 2, this will be keep looping until 
+        // a expected correct input
         while(numberOfPlayers < 2){
+            //let user to type a number
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             try{
                 String input = reader.readLine();
                 if ("x".equals(input)) System.exit(0);
+                //this check the input is a int or not also change the input
+                //type from string to int
                 numberOfPlayers = Integer.parseInt(input);
             }catch(IOException | NumberFormatException e){
                 System.out.println("Please enter a valid number that more then 1");
@@ -37,19 +46,35 @@ public class Control {
         return numberOfPlayers;
     }
     
+    /**
+     * this method takes in a number and check the pebble has a positive weight or not
+     * @param number
+     * @throws NegativeWeightException 
+     */
     private void checkWeight(int number) throws NegativeWeightException{
         if (number < 1)
             throw new NegativeWeightException();
     }
-    private void checkPebbles(int pebbles) throws PebblesNotEnoughForPlayerException{
+    /**
+     * This method checks the pebbles in the csv file is 11 times of the number of players or not
+     * @param pebbles
+     * @throws PebblesNotEnoughForPlayerException 
+     */
+    private void checkPebblesRatio(int pebbles) throws PebblesNotEnoughForPlayerException{
         if (pebbles <= numberOfPlayers * 11)
             throw new PebblesNotEnoughForPlayerException();
     }
     
+    /**
+     * this method read the path from the input and and check weather is a correct type of file
+     * and return the data in the file for further process
+     * @return 
+     */
     public ArrayList readFile(){
         ArrayList content = new ArrayList();
         int number;
         boolean done = false;
+        //the while loop will keep looping until a correct input is given
         while(!done){
             try{
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -58,6 +83,9 @@ public class Control {
                 BufferedReader reader = new BufferedReader(
                         new FileReader(path));
                 String input ;
+                //this read the number of the csv file everyline and replace the 
+                //, with nothing and change the type of the content from string
+                //to int and put them into a arraylist
                 while ((input = reader.readLine()) != null){
                     try{
                         input = input.replace(",", "");
@@ -66,7 +94,7 @@ public class Control {
                     checkWeight(number);
                     content.add(number);
                 }
-                checkPebbles(content.size());
+                checkPebblesRatio(content.size());
                 done = true;
             }catch(IOException | NumberFormatException | NegativeWeightException 
                     | PebblesNotEnoughForPlayerException e){
