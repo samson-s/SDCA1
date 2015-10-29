@@ -6,7 +6,7 @@
 
 /**
  *
- * @author Hui Ka Wang
+ * @author 620041195 640026665
  */
 public class IllegalFileException extends Exception{
     public IllegalFileException(){}

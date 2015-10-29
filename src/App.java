@@ -1,6 +1,6 @@
 /**
  *
- * @author kwsh201 pyt201
+ * @author 620041195 640026665
  */
 import java.io.File;
 import java.io.FileWriter;
@@ -19,7 +19,7 @@ public class App {
         PebbleBag pebbleBag ;
         private static int firstTenDraw = 0 ;
         private static boolean allFirstTenDraw = false;
-        private static final int winningNum = 700;
+        private static final int winningNum = 100;
         private int playerNum;
         private int temp;           //storing the number from the draw
         int hand[] = new int[10];

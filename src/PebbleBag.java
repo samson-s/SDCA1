@@ -6,7 +6,7 @@
 
 /**
  *
- * @author kwsh201 pyt201
+ * @author 620041195 640026665
  */
 import java.util.*;
 public class PebbleBag {
@@ -52,7 +52,7 @@ public PebbleBag(ArrayList list, ArrayList list1, ArrayList list2){
         
         // using random number generator to create randdom number
         Random random = new Random();
-        
+        int temp;
         /** 
          * Check the bag is empty or not
          * If it is empty throw exception,
@@ -60,27 +60,28 @@ public PebbleBag(ArrayList list, ArrayList list1, ArrayList list2){
          * If it is not empty, player will draw the random pebble from this bag
          */
         switch(randomNo){
+            
             case 1:
                 if (black1.isEmpty()){
                     fill(randomNo);
                     throw new BagEmptyException();
                 }
-                int temp = (int) black1.remove(random.nextInt(black1.size()));
+                temp = (int) black1.remove(random.nextInt(black1.size()));
                 return temp;
             case 2:
                 if (black2.isEmpty()){
                     fill(randomNo);
                     throw new BagEmptyException();
                 }
-                int temp2 = (int) black2.remove(random.nextInt(black2.size()));
-                return temp2;
+                temp = (int) black2.remove(random.nextInt(black2.size()));
+                return temp;
             default:
                 if (black3.isEmpty()){
                     fill(randomNo);
                     throw new BagEmptyException();
                 }
-                int temp3 = (int) black3.remove(random.nextInt(black3.size()));
-                return temp3;
+                temp = (int) black3.remove(random.nextInt(black3.size()));
+                return temp;
         }   
     }
     
